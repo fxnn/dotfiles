@@ -88,14 +88,14 @@ prompt_end() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  # if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    # prompt_segment 237 7 "%(!.%{%F{3}%}.)%n@%m"
-  # fi
-  # case "$OSTYPE" in
-  #    darwin*)  OS_LOGO="\ue29e" ;; 
-  #    linux*)   OS_LOGO="\ue712" ;;
-  # esac
-  # prompt_segment 237 7 $OS_LOGO
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    prompt_segment 237 7 "%(!.%{%F{3}%}.)%n@%m"
+  fi
+  case "$OSTYPE" in
+    darwin*)  OS_LOGO="\ue29e" ;; 
+    linux*)   OS_LOGO="\ue712" ;;
+  esac
+  prompt_segment 237 7 $OS_LOGO
 }
 
 # Git: branch/detached head, dirty status
@@ -144,64 +144,6 @@ prompt_git() {
   fi
 }
 
-prompt_bzr() {
-    (( $+commands[bzr] )) || return
-    if (bzr status >/dev/null 2>&1); then
-        status_mod=`bzr status | head -n1 | grep "modified" | wc -m`
-        status_all=`bzr status | head -n1 | wc -m`
-        revision=`bzr log | head -n2 | tail -n1 | sed 's/^revno: //'`
-        if [[ $status_mod -gt 0 ]] ; then
-            prompt_segment 3 0
-            echo -n "bzr@"$revision "✚ "
-        else
-            if [[ $status_all -gt 0 ]] ; then
-                prompt_segment 3 0
-                echo -n "bzr@"$revision
-
-            else
-                prompt_segment 2 0
-                echo -n "bzr@"$revision
-            fi
-        fi
-    fi
-}
-
-prompt_hg() {
-  (( $+commands[hg] )) || return
-  local rev st branch
-  if $(hg id >/dev/null 2>&1); then
-    if $(hg prompt >/dev/null 2>&1); then
-      if [[ $(hg prompt "{status|unknown}") = "?" ]]; then
-        # if files are not added
-        prompt_segment 1 7
-        st='±'
-      elif [[ -n $(hg prompt "{status|modified}") ]]; then
-        # if any modification
-        prompt_segment 3 0
-        st='±'
-      else
-        # if working copy is clean
-        prompt_segment 2 $CURRENT_FG
-      fi
-      echo -n $(hg prompt "☿ {rev}@{branch}") $st
-    else
-      st=""
-      rev=$(hg id -n 2>/dev/null | sed 's/[^-0-9]//g')
-      branch=$(hg id -b 2>/dev/null)
-      if `hg st | grep -q "^\?"`; then
-        prompt_segment 1 0
-        st='±'
-      elif `hg st | grep -q "^[MA]"`; then
-        prompt_segment 3 0
-        st='±'
-      else
-        prompt_segment 2 $CURRENT_FG
-      fi
-      echo -n "☿ $rev@$branch" $st
-    fi
-  fi
-}
-
 # Dir: current working directory
 prompt_dir() {
   prompt_segment 4 $CURRENT_FG '%~'
@@ -234,11 +176,9 @@ build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
-  prompt_context
+  #prompt_context
   prompt_dir
   prompt_git
-  prompt_bzr
-  prompt_hg
   prompt_end
 }
 
