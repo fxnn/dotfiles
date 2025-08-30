@@ -70,6 +70,21 @@ ZSH_THEME="gruvbox-fxnn"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
+# kube-ps1
+# https://github.com/jonmosco/kube-ps1
+k8s_short_cluster() {
+  echo "$1" \
+    | sed -e 's/^ops\.//g' \
+    | sed -e 's/-default$//g' \
+    | sed -e 's/\.profitbricks\.net$//g'
+}
+KUBE_PS1_PREFIX=
+KUBE_PS1_SUFFIX=
+KUBE_PS1_SYMBOL_ENABLE=false
+KUBE_PS1_CTX_COLOR=
+KUBE_PS1_NS_COLOR=
+KUBE_PS1_CLUSTER_FUNCTION=k8s_short_cluster
+
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
@@ -78,7 +93,7 @@ ZSH_THEME="gruvbox-fxnn"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git kube-ps1)
 
 source $ZSH/oh-my-zsh.sh
 

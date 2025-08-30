@@ -146,7 +146,7 @@ prompt_git() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment 4 $CURRENT_FG '%~'
+  prompt_segment 64 $CURRENT_FG '%~'
 }
 
 # Virtualenv: current working virtualenv
@@ -173,6 +173,12 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment 223 7 "$symbols"
 }
 
+prompt_k8s() {
+  if [ "${KUBE_PS1_ENABLED}" = "on" ]; then
+    prompt_segment 69 0 "$(kube_ps1)"
+  fi
+}
+
 ## Main prompt
 build_prompt() {
   RETVAL=$?
@@ -180,6 +186,7 @@ build_prompt() {
   prompt_virtualenv
   #prompt_context
   prompt_dir
+  prompt_k8s
   prompt_git
   prompt_end
 }
