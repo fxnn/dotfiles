@@ -11,4 +11,4 @@ This is the set of packages I need to install on a new machine.
 * [Oh My ZSH](https://ohmyz.sh)
 * [Helix Editor](https://helix-editor.com)
 * iTerm2
-* [Powerline Fonts](https://github.com/powerline/fonts) (also on [Homebrew](https://formulae.brew.sh/cask/font-powerline-symbols))
+* [Nerd Fonts](https://www.nerdfonts.com/) or [Powerline Fonts](https://github.com/powerline/fonts) (the pure symbols font is also on [Homebrew](https://formulae.brew.sh/cask/font-powerline-symbols))
