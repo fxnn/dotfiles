@@ -88,14 +88,11 @@ prompt_end() {
 
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+  local PP_NAME
+  PP_NAME=`ps -o comm -p $PPID | tail -1`
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" || "$PP_NAME" = "su" ]]; then
     prompt_segment 237 7 "%(!.%{%F{3}%}.)%n@%m"
   fi
-  case "$OSTYPE" in
-    darwin*)  OS_LOGO="\ue29e" ;; 
-    linux*)   OS_LOGO="\ue712" ;;
-  esac
-  prompt_segment 237 7 $OS_LOGO
 }
 
 # Git: branch/detached head, dirty status
@@ -184,7 +181,7 @@ build_prompt() {
   RETVAL=$?
   prompt_status
   prompt_virtualenv
-  #prompt_context
+  prompt_context
   prompt_dir
   prompt_k8s
   prompt_git
