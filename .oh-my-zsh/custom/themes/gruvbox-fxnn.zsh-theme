@@ -90,7 +90,7 @@ prompt_end() {
 prompt_context() {
   local PP_NAME
   PP_NAME=`ps -o comm -p $PPID | tail -1`
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" || "$PP_NAME" = "su" ]]; then
+  if [[ -n "$SSH_CLIENT" || "$PP_NAME" = "su" ]]; then
     prompt_segment 237 7 "%(!.%{%F{3}%}.)%n@%m"
   fi
 }
