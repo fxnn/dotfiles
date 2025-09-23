@@ -1,9 +1,9 @@
-[user]
-	name = Felix Neumann
-	email = dev@fxnn.de
 [init]
 	defaultBranch = main
 [core]
 	autocrlf = input
 [push]
 	autoSetupRemote = true
+[include]
+	# for keys like user.name and user.email
+	path = ~/.gitconfig.local
