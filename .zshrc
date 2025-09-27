@@ -111,7 +111,7 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-EDITOR=hx
+export EDITOR=hx
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
