@@ -9,4 +9,13 @@ theme = "iroaseta"
 [keys.select]
 "C-c" = ["normal_mode", "keep_primary_selection", "collapse_selection"]
 
+[editor]
+# for Markdown linebreaks
+trim-trailing-whitespace = false
 
+[editor.soft-wrap]
+enable = true
+
+[editor.whitespace.render]
+# not implemented, see https://github.com/helix-editor/helix/issues/2719
+#space = "trailing"
