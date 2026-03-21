@@ -102,9 +102,11 @@ export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # enable pin entry in the terminal
-#export GPG_TTY=$(tty)
+export GPG_TTY=$(tty)
 
 # Preferred editor for local and remote sessions
 export EDITOR=hx
@@ -127,3 +129,6 @@ export EDITOR=hx
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias k="kubectl"
 
+if [ -f $HOME/.zshrc.local ]; then
+  source $HOME/.zshrc.local
+fi
