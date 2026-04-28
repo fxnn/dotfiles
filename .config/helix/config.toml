@@ -13,6 +13,7 @@ theme = "iroaseta"
 atomic-save = false  # crontab -e requires in-place editing
 # for Markdown linebreaks
 trim-trailing-whitespace = false
+trim-final-newlines = false
 
 [editor.soft-wrap]
 enable = true
