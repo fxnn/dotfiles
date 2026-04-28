@@ -1,0 +1,18 @@
+# 
+# window appearance
+
+background = black
+background-opacity = 0.6
+background-opacity-cells = true
+background-blur = macos-glass-regular
+# ugly and useless
+macos-titlebar-proxy-icon = hidden
+# tabs integrated to title bar, looks better and safes vertical space
+macos-titlebar-style = tabs
+# some padding to left+right looks better
+window-padding-x = 5
+
+macos-icon = holographic
+
+font-size = 11
+cursor-style = block
