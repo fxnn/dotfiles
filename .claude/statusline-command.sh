@@ -10,7 +10,7 @@ cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
 git_info=""
 if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null || git -C "$cwd" rev-parse --short HEAD 2>/dev/null)
-  dirty=$(git -C "$cwd" status --porcelain 2>/dev/null)
+  dirty=$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)
   if [ -n "$dirty" ]; then
     git_info=" ${branch} ●"
   else
