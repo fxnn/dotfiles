@@ -1,7 +1,7 @@
 # 
 # window appearance
 
-background = black
+#background = black -- not sure why I did this, but it doesn't work with light theme
 background-opacity = 0.6
 background-opacity-cells = true
 background-blur = macos-glass-regular
@@ -16,3 +16,8 @@ macos-icon = holographic
 
 font-size = 11
 cursor-style = block
+
+#theme = light:Modus Operandi,dark:
+#theme = light:Primary,dark:
+theme = light:Raycast Light,dark:Dracula
+window-theme = system

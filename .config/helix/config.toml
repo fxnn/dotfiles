@@ -1,4 +1,6 @@
-theme = "iroaseta"
+[theme]
+dark = "iroaseta"
+light = "modus_operandi_tritanopia"
 
 [keys.normal]
 "C-c" = ["keep_primary_selection", "collapse_selection"]
