@@ -18,21 +18,39 @@ if git -C "$cwd" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   fi
 fi
 
-# Context window
-context_info=""
+# Context window percentage + progress bar
+ctx_segment=""
 used=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
 if [ -n "$used" ]; then
-  context_info=" ctx:$(printf '%.0f' "$used")%"
+  pct=$(printf '%.0f' "$used")
+
+  bar_width=10
+  filled=$(( pct * bar_width / 80 ))
+  [ "$filled" -gt "$bar_width" ] && filled=$bar_width
+  empty=$(( bar_width - filled ))
+
+  bar=""
+  i=0; while [ "$i" -lt "$filled" ]; do bar="${bar}█"; i=$(( i + 1 )); done
+  i=0; while [ "$i" -lt "$empty" ]; do bar="${bar}░"; i=$(( i + 1 )); done
+
+  # 64% context = 80% of the ~80% compaction threshold → switch to bright yellow
+  if [ "$pct" -ge 64 ]; then
+    bar_esc="\033[93m"
+  else
+    bar_esc="\033[36m"
+  fi
+
+  ctx_segment="ctx:${pct}% ${bar_esc}${bar}"
 fi
 
 # Session cost (approximate, based on cumulative token usage)
 # Rates: $3/M input tokens, $15/M output tokens (Claude Sonnet)
-cost_info=""
+cost_segment=""
 total_in=$(echo "$input" | jq -r '.context_window.total_input_tokens // empty')
 total_out=$(echo "$input" | jq -r '.context_window.total_output_tokens // empty')
 if [ -n "$total_in" ] && [ -n "$total_out" ]; then
   cost=$(awk "BEGIN { printf \"%.4f\", ($total_in / 1000000 * 3) + ($total_out / 1000000 * 15) }")
-  cost_info=" \$${cost}"
+  cost_segment="\$${cost}"
 fi
 
 # Model
@@ -40,8 +58,10 @@ model=$(echo "$input" | jq -r '.model.display_name // empty')
 
 dot=" · "
 
-printf "\033[32m%s\033[36m%s\033[33m%s\033[0m%s\033[0m" \
-  "${model:+$model}" \
-  "${context_info:+$dot${context_info# }}" \
-  "${cost_info:+$dot${cost_info# }}" \
-  "${git_info:+$dot${git_info# }}"
+out="\033[32m${model}"
+[ -n "$ctx_segment" ]  && out="${out}\033[36m${dot}${ctx_segment}"
+[ -n "$cost_segment" ] && out="${out}\033[33m${dot}${cost_segment}"
+[ -n "$git_info" ]     && out="${out}\033[0m${dot}${git_info}"
+out="${out}\033[0m"
+
+printf "%b" "$out"
