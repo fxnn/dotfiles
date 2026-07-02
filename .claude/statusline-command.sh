@@ -53,12 +53,13 @@ if [ -n "$total_in" ] && [ -n "$total_out" ]; then
   cost_segment="\$${cost}"
 fi
 
-# Model
+# Model + effort
 model=$(echo "$input" | jq -r '.model.display_name // empty')
+effort=$(echo "$input" | jq -r '.effort.level // empty')
 
 dot=" · "
 
-out="\033[32m${model}"
+out="\033[32m${model}${effort:+ $effort}"
 [ -n "$ctx_segment" ]  && out="${out}\033[36m${dot}${ctx_segment}"
 [ -n "$cost_segment" ] && out="${out}\033[33m${dot}${cost_segment}"
 [ -n "$git_info" ]     && out="${out}\033[0m${dot}${git_info}"
