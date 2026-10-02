@@ -9,8 +9,8 @@ background-blur = macos-glass-regular
 split-divider-color = #888888
 # ugly and useless
 macos-titlebar-proxy-icon = hidden
-# tabs integrated to title bar, looks better and safes vertical space
-macos-titlebar-style = tabs
+# native titlebar: the "tabs" style doesn't update on light/dark theme switches
+macos-titlebar-style = native
 # some padding to left+right looks better
 window-padding-x = 5
 
